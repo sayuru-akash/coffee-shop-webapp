@@ -9,32 +9,32 @@ export class AdminSidebarComponent {
     {
       icon: 'fa-grip',
       text: 'Dashboard',
-      link: ''
+      link: '/admin'
     },
     {
       icon: 'fa-file',
       text: 'Products',
-      link: ''
+      link: '/admin/products'
     },
     {
       icon: 'fa-layer-group',
       text: 'Categories',
-      link: ''
+      link: '/admin/categories'
     },
     {
       icon: 'fa-hand-holding-dollar',
       text: 'Orders',
-      link: ''
+      link: '/admin/orders'
     },
     {
       icon: 'fa-users',
       text: 'Users',
-      link: ''
+      link: '/admin/users'
     },
     {
       icon: 'fa-gear',
       text: 'Settings',
-      link: ''
+      link: '/admin/settings'
     }
   ];
 }

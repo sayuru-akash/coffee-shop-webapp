@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './home/home.component';
@@ -9,7 +10,12 @@ import { CartComponent } from './cart/cart.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { HeroComponent } from '../components/hero/hero.component';
+import { AuthModule } from './auth/auth.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EditProductComponent } from './admin/products/edit-product/edit-product.component';
+import { AddProductComponent } from './admin/products/add-product/add-product.component';
 
 const routes = [
   { path: '', component: HomeComponent },
@@ -24,22 +30,24 @@ const routes = [
     MenuComponent,
     CheckoutComponent,
     CartComponent,
-    HeroComponent
+    HeroComponent,
+    EditProductComponent,
+    AddProductComponent,
   ],
   imports: [
+    AuthModule,
     BrowserModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatSelectModule,
     MatOptionModule,
-    RouterModule.forRoot(routes)
+    MatDialogModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    RouterModule.forRoot(routes),
   ],
-  exports: [
-    HomeComponent,
-    MenuComponent,
-    CheckoutComponent,
-    CartComponent
-  ],
-  providers: []
+  exports: [HomeComponent, MenuComponent, CheckoutComponent, CartComponent],
+  providers: [],
 })
-export class PagesModule { }
+export class PagesModule {}
