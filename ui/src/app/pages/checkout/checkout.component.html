@@ -1,0 +1,80 @@
+<div class="px-auto">
+    <div class="flex flex-col sm:flex-row">
+        
+        <div class="w-full bg-green-700 md:w-1/2 flex flex-row pt-10 pb-12">
+            <div class="bg-inherit flex flex-col gap-10 w-full mx-10 sm:mx-20">
+                <div class="text-2xl text-white font-bold mb-6 mt-6 sm:mt-0">Order Summary</div>
+                <div *ngFor="let cartItem of cartItems" class="bg-white rounded-md flex flex-col sm:flex-row bg-inherit w-full p-4 items-center gap-4 border-b-2 justify-evenly">
+                  <img class="rounded-full w-32 h-32 sm:mr-4" [src]="cartItem.imgSrc" alt="item image">
+                  <div class="flex flex-col justify-center items-center sm:justify-start sm:items-start">
+                    <p class="text-xl font-normal">{{ cartItem.name }}</p>
+                    <p class="text-gray-500">{{ cartItem.category }}</p>
+                  
+                    <div class="flex items-center justify-center mt-4">
+                        <a class="mr-4 sm:mr-10 hover:text-gray-600 ">
+                          <i class="fa-solid text-lg fa-minus text-black"></i>
+                        </a>
+                        <span class="mx-2">{{ cartItem.quantity }}</span>
+                        <a class="ml-4 sm:ml-10 hover:text-gray-600">
+                          <i class="fa fa-plus text-black"></i>
+                        </a>
+                      </div>
+                      
+                  </div>
+                </div>
+                
+              </div>
+              
+        </div>
+        <div class="w-full md:w-1/2 bg-white flex flex-row md:items-center min-h-full pt-4 px-12">
+            <div class="block w-full sm:p-6 mb-8">
+                <form class="text-left">
+                    <div class="text-2xl font-bold mb-6 mt-6 sm:mt-0">Order Confirmation</div>
+                    <div class="text-md font-normal text-red-600 mb-6">* indicates required fields</div>
+                    <div class="text-lg font-bold mb-4 text-black">Personal Information</div>
+                    <div class="flex flex-col sm:space-x-4 mb-6 gap-6">
+                        <div class="w-2/2 sm:w-1/2">
+                            <input type="text" id="firstName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* First Name" required>
+                        </div>
+                        <div class="w-2/2 sm:w-1/2">
+                            <input type="text" id="lastName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* Last Name" required>
+                        </div>
+                    </div>
+                    <div class="text-lg font-bold mb-4 text-black">Contact Information</div>
+                    <div class="mb-6">
+                        <input type="text" id="country" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* Country/Region" required>
+                    </div>
+                    <div class="mb-6">
+                        <input type="text" id="streetAddress" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* Street Address" required>
+                    </div>
+                    <div class="mb-6">
+                        <input type="text" id="townCity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* Town/City" required>
+                    </div>
+                    <div class="mb-6">
+                        <input type="text" id="postalCode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* Postal Code" required>
+                    </div>
+                    <div class="mb-6">
+                        <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Phone Number">
+                    </div>
+                    <div class="mb-6">
+                        <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="* Email" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="flex items-center ">
+                            <input type="checkbox" class="form-checkbox">
+                            <span class="ml-2 text-black">I agree to the Terms of Use</span>
+                        </label>
+                    </div>
+                    <div class="w-full content-center justify-center flex sm:justify-end sm:content-end">
+                        <button
+            class=" mb-12 bg-darkgreen text-white bg-green-900 py-3 px-5 font-semibold text-xl rounded-full border-2 hover:border-green-900 hover:bg-transparent hover:text-green-900 transition duration-300"
+          >
+            Place Order
+          </button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>

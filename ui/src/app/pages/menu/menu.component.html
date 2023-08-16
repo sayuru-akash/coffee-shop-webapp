@@ -1,0 +1,27 @@
+<div class="container mx-auto px-16">
+    <div class="md:flex ">
+        <div class="md:w-1/4 md:flex  md:justify-start">
+            <div class="flex flex-col p-6 sm:p-16">
+                <div *ngFor="let category of categories" class="mb-4">
+                    <div class="text-xl font-semibold mb-4">{{ category.name }}</div>
+                    <div *ngFor="let subcategory of category.subcategories" class="mb-4">
+                        <span class="text-lg font-normal text-gray-400 mb-4">{{ subcategory }}</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="md:w-3/4 max-h-screen md:h-auto md:order-2 md:flex">
+            <div class="flex flex-col p-6 sm:p-16 gap-10 w-full">
+                <div class="text-3xl font-semibold ">Menu</div>
+                <div class="text-2xl font-semibold border-b-2 pb-8">Drinks</div>
+                <div class="flex flex-wrap">
+                    <div *ngFor="let drink of drinks" class="w-full sm:w-2/2 md:w-1/2 p-4 flex items-center gap-4">
+                        <img class="rounded-full w-32 h-32 mr-4" [src]="drink.imgSrc" alt="image description">
+                        <p class="text-xl font-normal">{{ drink.name }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
