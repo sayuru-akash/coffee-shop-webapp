@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { WebsocketService } from 'src/app/webSocket.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
 })
 export class CartComponent {
-  constructor(private http: HttpClient) {}
+  messages: Observable<{ type: string; message: string }[]>;
+
+  constructor(
+    private http: HttpClient,
+    private websocketService: WebsocketService
+  ) {
+    this.messages = this.websocketService.getMessages();
+    console.log(this.messages);
+  }
 
   pickupLocations = ['Location 1', 'Location 2', 'Location 3', 'Location 4'];
   selectedPickupLocation = '';
@@ -91,6 +101,9 @@ export class CartComponent {
         .subscribe(
           (response) => {
             console.log('Order submitted successfully:', response);
+            this.sendWebSocketMessage(
+              'New order received from ' + this.loggedInUserId
+            );
 
             this.cartItems = [];
             this.total = 0;
@@ -104,5 +117,9 @@ export class CartComponent {
     } catch (error) {
       console.log('Error submitting order:', error);
     }
+  }
+
+  sendWebSocketMessage(message: string): void {
+    this.websocketService.sendMessage(message);
   }
 }

@@ -40,13 +40,17 @@ export class LoginComponent {
         this.errorMessage = ''; // Clear any previous error message
         form.reset(); // Reset the form
 
-        // create a local storage item with expiration
         const now = new Date();
         const item = {
           id: response['id'],
           expiration: now.getTime() + 3600000,
         };
         localStorage.setItem('loginToken', JSON.stringify(item));
+
+        // after a delay, redirect to home page
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 2000);
       },
       (error) => {
         this.errorMessage = error.error.msg || 'Invalid Credentials'; // Set the error message

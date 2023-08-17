@@ -7,29 +7,24 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LogoutGuard } from 'src/app/logout.guard';
 
 const routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-  ];
-
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'logout', canActivate: [LogoutGuard], component: LoginComponent },
+];
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent,
-  ],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
     FormsModule,
     HttpClientModule,
     CommonModule,
     BrowserModule,
     MatCheckboxModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ],
-  exports:[
-    LoginComponent,
-    RegisterComponent
-  ]
+  exports: [LoginComponent, RegisterComponent],
 })
-export class AuthModule { }
+export class AuthModule {}

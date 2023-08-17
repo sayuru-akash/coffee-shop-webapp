@@ -20,15 +20,29 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { AuthGuard } from './auth-guard.service';
+import { NgxWebsocketModule } from 'ngx-websocket';
 
 const routes = [
   { path: '', component: PagesModule },
   { path: 'menu/:id', component: ProductSingleComponent },
-  { path: 'admin', component: DashboardComponent },
-  { path: 'admin/users', component: UsersComponent },
-  { path: 'admin/products', component: ProductsComponent },
-  { path: 'admin/categories', component: CategoriesComponent },
-  { path: 'admin/orders', component: OrdersComponent },
+  { path: 'admin', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'admin/users', component: UsersComponent, canActivate: [AuthGuard] },
+  {
+    path: 'admin/products',
+    component: ProductsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/categories',
+    component: CategoriesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/orders',
+    component: OrdersComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
@@ -42,6 +56,7 @@ const routes = [
   ],
   imports: [
     SharedModule,
+    NgxWebsocketModule,
     AuthModule,
     FormsModule,
     PagesModule,
