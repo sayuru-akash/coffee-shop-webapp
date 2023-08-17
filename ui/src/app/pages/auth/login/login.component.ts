@@ -13,6 +13,19 @@ export class LoginComponent {
   password: string = '';
   successMessage: string = '';
   errorMessage: string = '';
+  loggedIn: boolean = false;
+  loggedInUser: any = {};
+
+  ngOnInit(): void {
+    const loginToken = localStorage.getItem('loginToken');
+    if (loginToken) {
+      const now = new Date();
+      const item = JSON.parse(loginToken);
+      if (now.getTime() < item.expiration) {
+        this.loggedIn = true;
+      }
+    }
+  }
 
   onSubmit(form: NgForm) {
     console.log(form.value);

@@ -7,34 +7,34 @@ import { Component } from '@angular/core';
 export class AdminSidebarComponent {
   sidebarItems = [
     {
-      icon: 'fa-grip',
+      icon: 'fa-tachometer-alt',
       text: 'Dashboard',
-      link: '/admin'
+      link: '/admin',
     },
     {
-      icon: 'fa-file',
+      icon: 'fa-coffee',
       text: 'Products',
-      link: '/admin/products'
+      link: '/admin/products',
     },
     {
-      icon: 'fa-layer-group',
+      icon: 'fa-list',
       text: 'Categories',
-      link: '/admin/categories'
+      link: '/admin/categories',
     },
     {
-      icon: 'fa-hand-holding-dollar',
+      icon: 'fa-shopping-cart',
       text: 'Orders',
-      link: '/admin/orders'
+      link: '/admin/orders',
     },
     {
       icon: 'fa-users',
       text: 'Users',
-      link: '/admin/users'
+      link: '/admin/users',
     },
     {
-      icon: 'fa-gear',
-      text: 'Settings',
-      link: '/admin/settings'
-    }
+      icon: 'fa-cog',
+      text: 'Log Out',
+      link: '/logout',
+    },
   ];
 }

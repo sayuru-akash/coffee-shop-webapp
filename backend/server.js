@@ -61,6 +61,7 @@ const usersSchema = new mongoose.Schema(
     lastName: String,
     email: String,
     password: String,
+    role: String || "user",
   },
   { timestamps: true }
 );
@@ -74,10 +75,47 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+const cartSchema = new mongoose.Schema(
+  {
+    userId: String,
+    products: [
+      {
+        productId: String,
+        quantity: Number || 1,
+        name: String,
+        price: Number,
+        category: String,
+        image: String,
+      },
+    ],
+  },
+  { timestamps: true }
+);
+const orderSchema = new mongoose.Schema(
+  {
+    userId: String,
+    products: [
+      {
+        productId: String,
+        quantity: Number || 1,
+        name: String,
+        price: Number,
+        category: String,
+        image: String,
+      },
+    ],
+    total: Number,
+    pickupLocation: String,
+    status: String || "Placed",
+  },
+  { timestamps: true }
+);
 
 //models for mongoose schemas
 const User = mongoose.model("User", usersSchema, "users");
 const Product = mongoose.model("Product", productSchema, "products");
+const Cart = mongoose.model("Cart", cartSchema, "carts");
+const Order = mongoose.model("Order", orderSchema, "orders");
 
 // routes
 app.get("/", (req, res) => {
@@ -134,6 +172,7 @@ app.post("/api/user/register", async (req, res) => {
       lastName,
       email,
       password: hash,
+      role : "user"
     });
 
     await newUser.save();
@@ -168,6 +207,43 @@ app.post("/api/user/login", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Error logging in user please try again.");
+  }
+});
+
+// get all users
+app.get("/api/users", async (req, res) => {
+  const page = +req.query.page || 1;
+  const perPage = +req.query.limit || 10;
+
+  try {
+    const users = await User.find()
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 });
+
+    const count = await User.countDocuments();
+
+    res.status(200).json({ users, total: count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error getting users please try again.");
+  }
+});
+
+// delete user
+app.delete("/api/user/delete/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ msg: "No user found with that id" });
+  }
+
+  try {
+    await User.findByIdAndDelete(id);
+    res.status(200).json({ msg: "User successfully deleted!" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error deleting user please try again.");
   }
 });
 
@@ -255,6 +331,160 @@ app.get("/api/products", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Error getting products please try again.");
+  }
+});
+
+// get products by category
+app.get("/api/products/:category", async (req, res) => {
+  const category = req.params.category;
+  const page = +req.query.page || 1;
+  const perPage = +req.query.limit || 10;
+
+  try {
+    const products = await Product.find({ category })
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 });
+
+    const count = await Product.countDocuments({ category });
+
+    res.status(200).json({ products, total: count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error getting products please try again.");
+  }
+});
+
+// get product by id
+app.get("/api/product/:id", async (req, res) => {
+  const id = req.params.id;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ msg: "No product found with that id" });
+  }
+
+  try {
+    const product = await Product.findById(id);
+    res.status(200).json({ product });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error getting product please try again.");
+  }
+});
+
+// add product to cart
+app.post("/api/cart/add", async (req, res) => {
+  const { userId, productId, quantity, name, price, category, image } =
+    req.body;
+
+  if (
+    !userId ||
+    !productId ||
+    !quantity ||
+    !name ||
+    !price ||
+    !category ||
+    !image
+  ) {
+    return res.status(400).json({ msg: "Please enter all fields" });
+  }
+
+  try {
+    const existingCart = await Cart.findOne({ userId });
+
+    if (!existingCart) {
+      const newCart = new Cart({
+        userId,
+        products: [{ productId, quantity, name, price, category, image }],
+      });
+
+      await newCart.save();
+      return res
+        .status(200)
+        .json({ msg: "Product successfully added to cart!" });
+    }
+
+    const existingProduct = existingCart.products.find(
+      (product) => product.productId === productId
+    );
+
+    if (existingProduct) {
+      existingProduct.quantity += quantity;
+    } else {
+      existingCart.products.push({
+        productId,
+        quantity,
+        name,
+        price,
+        category,
+        image,
+      });
+    }
+
+    await existingCart.save();
+    res.status(200).json({ msg: "Product successfully added to cart!" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error adding product to cart please try again.");
+  }
+});
+
+// get cart by user id
+app.get("/api/cart/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const cart = await Cart.findOne({ userId });
+    res.status(200).json({ cart });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error getting cart please try again.");
+  }
+});
+
+// add order
+app.post("/api/order/add", async (req, res) => {
+  const { userId, products, total, status, pickupLocation } = req.body;
+
+  if (!userId || !products || !total || !status || !pickupLocation) {
+    return res.status(400).json({ msg: "Please enter all fields" });
+  }
+
+  try {
+    const newOrder = new Order({
+      userId,
+      products,
+      total,
+      status,
+      pickupLocation,
+    });
+
+    await newOrder.save();
+    await Cart.findOneAndDelete({ userId });
+    res.status(200).json({ msg: "Order successfully created!" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error creating new order please try again.");
+  }
+});
+
+// get all orders
+app.get("/api/orders", async (req, res) => {
+  const page = +req.query.page || 1;
+  const perPage = +req.query.limit || 10;
+
+  try {
+    const orders = await Order.find()
+      .skip((page - 1) * perPage)
+      .limit(perPage)
+      .sort({ createdAt: -1 });
+
+    const count = await Order.countDocuments();
+
+    res.status(200).json({ orders, total: count });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error getting orders please try again.");
   }
 });
 

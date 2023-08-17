@@ -32,7 +32,7 @@ const routes = [
     CartComponent,
     HeroComponent,
     EditProductComponent,
-    AddProductComponent,
+    AddProductComponent
   ],
   imports: [
     AuthModule,

@@ -1,74 +1,79 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
 })
 export class MenuComponent {
-  categories = [
-    {
-        name: "Drinks",
+  constructor(private http: HttpClient) {}
+
+  categories: any = [];
+  drinks: any = [];
+  foods: any = [];
+  merchandise: any = [];
+
+  ngOnInit(): void {
+    this.getCategories();
+    this.getItems(this.categories.map((category: any) => category.name));
+  }
+
+  getCategories() {
+    this.categories = [
+      {
+        name: 'Drinks',
         subcategories: [
-            "Oleato™",
-            "Hot Coffees",
-            "Hot Teas",
-            "Hot Drinks",
-            "Frappuccino® Blended Beverages",
-            "Cold Coffees",
-            "Iced Teas",
-            "Cold Drinks"
-        ]
-    },
-    {
-        name: "Food",
-        subcategories: [
-            "Hot Breakfast",
-            "Oatmeal & Yogurt",
-            "Bakery",
-            "Lunch",
-            "Snacks & Sweets"
-        ]
-    },
-    {
-        name: "At Home Coffee",
-        subcategories: [
-            "Whole Bean",
-            "VIA® Instant"
-        ]
-    },
-    {
-        name: "Merchandise",
-        subcategories: [
-            "Cold Cups",
-            "Tumblers",
-            "Mugs",
-            "Other"
-        ]
+          'Hot Coffees',
+          'Hot Teas',
+          'Cold Coffees',
+          'Iced Teas',
+          'Cold Drinks',
+        ],
+      },
+      {
+        name: 'Food',
+        subcategories: ['Hot Breakfast', 'Bakery', 'Snacks & Sweets'],
+      },
+      {
+        name: 'Merchandise',
+        subcategories: ['Cold Cups', 'Mugs', 'Other'],
+      },
+    ];
+  }
+
+  getItems(categories: []) {
+    for (const category of categories) {
+      try {
+        const apiUrl = `http://localhost:3000/api/products/${category}`;
+
+        if (category === 'Drinks') {
+          this.http.get(apiUrl).subscribe((response: any) => {
+            this.drinks = response.products.map((product: any) => ({
+              id: product._id,
+              imgSrc: product.image.replace('/upload/', '/upload/w_200/'),
+              name: product.name,
+            }));
+          });
+        } else if (category === 'Food') {
+          this.http.get(apiUrl).subscribe((response: any) => {
+            this.foods = response.products.map((product: any) => ({
+              id: product._id,
+              imgSrc: product.image.replace('/upload/', '/upload/w_200/'),
+              name: product.name,
+            }));
+          });
+        } else if (category === 'Merchandise') {
+          this.http.get(apiUrl).subscribe((response: any) => {
+            this.merchandise = response.products.map((product: any) => ({
+              id: product._id,
+              imgSrc: product.image.replace('/upload/', '/upload/w_200/'),
+              name: product.name,
+            }));
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-];
-
-drinks = [
-  {
-    imgSrc: 'https://globalassets.starbucks.com/digitalassets/products/bev/Oleato_GoldenFoam_ColdBrew.jpg?impolicy=1by1_tight_288%22',
-    name: 'Oat Milk'
-  },
-  {
-    imgSrc: 'https://globalassets.starbucks.com/digitalassets/products/bev/Oleato_GoldenFoam_ColdBrew.jpg?impolicy=1by1_tight_288%22',
-    name: 'Oat Milk'
-  },{
-    imgSrc: 'https://globalassets.starbucks.com/digitalassets/products/bev/Oleato_GoldenFoam_ColdBrew.jpg?impolicy=1by1_tight_288%22',
-    name: 'Oat Milk'
-  },{
-    imgSrc: 'https://globalassets.starbucks.com/digitalassets/products/bev/Oleato_GoldenFoam_ColdBrew.jpg?impolicy=1by1_tight_288%22',
-    name: 'Oat Milk'
-  },{
-    imgSrc: 'https://globalassets.starbucks.com/digitalassets/products/bev/Oleato_GoldenFoam_ColdBrew.jpg?impolicy=1by1_tight_288%22',
-    name: 'Oat Milk'
-  },{
-    imgSrc: 'https://globalassets.starbucks.com/digitalassets/products/bev/Oleato_GoldenFoam_ColdBrew.jpg?impolicy=1by1_tight_288%22',
-    name: 'Oat Milk'
-  },
-];
-
-
+  }
 }

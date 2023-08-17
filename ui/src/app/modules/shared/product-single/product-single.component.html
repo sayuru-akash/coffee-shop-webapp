@@ -3,205 +3,242 @@
     <div class="flex md:w-2/5 bg-image md:flex items-center justify-center">
       <img
         class="rounded-full w-64 h-64 sm:w-80 sm:h-80 mr-4 object-cover mt-8 sm:mt-0"
-        src="https://img.freepik.com/free-photo/front-view-smiley-woman-with-fireworks_52683-98180.jpg?w=996&t=st=1691257285~exp=1691257885~hmac=bdeabd2725adb794d87e47a249166d35c0518c54a6614aff6748c9bc21b3f9d8"
+        [src]="product.product.image"
         alt="image description"
       />
     </div>
     <div class="md:w-3/5 max-h-screen md:h-auto md:order-2 md:flex">
       <div class="w-full sm:w-4/5">
         <div class="flex flex-col p-4 sm:p-16 gap-6 text-white">
-          <span class="text-5xl font-bold mb-2"
-            >Oleato Golden Foam Cold Brew</span
+          <span class="text-5xl font-bold mb-2">
+            {{ product.product.name }}
+          </span>
+          <span class="text-2xl mb-4">
+            {{ product.product.description }}
+          </span>
+          <span class="text-2xl mb-4 text-yellow-400 text-semibold">{{
+            product.product.price | currency
+          }}</span>
+          <button
+            class="bg-darkgreen text-white bg-green-900 py-3 px-5 font-semibold text-xl rounded-full border-2 hover:border-green-900 hover:bg-white hover:text-green-900 transition duration-300"
+            *ngIf="product.product.category !== 'Drinks'"
           >
-          <span class="text-2xl mb-4"
-            >Special coffee with a touch of foam and a hint of sweetness.</span
-          >
+            Add To Order
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="md:flex min-h-96">
-  <div class="md:w-1/2 bg-image md:h-auto md:order-1 md:flex md:justify-center">
-    <div class="flex flex-col p-4 sm:p-16 gap-9">
-      <span
-        class="text-2xl font-bold mb-2 border-b-lime-600 border-b-4 border-opacity-30 pb-8"
-        >Oleato Golden Foam™ Cold Brew</span
-      >
-      <ul class="flex flex-col w-full gap-6">
-        <li>
-          <input
-            type="radio"
-            id="size-tall"
-            name="size"
-            value="size-tall"
-            class="hidden peer"
-            required
-          />
-          <label
-            for="size-tall"
-            class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Tall</div>
-            </div>
-            <svg
-              width="30px"
-              height="30px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+<form #addPostForm="ngForm" (ngSubmit)="onSubmit(addPostForm)">
+  <div class="md:flex min-h-96" *ngIf="product.product.category === 'Drinks'">
+    <div
+      class="md:w-1/2 bg-image md:h-auto md:order-1 md:flex md:justify-center"
+    >
+      <div class="flex flex-col p-4 sm:p-16 gap-9 w-full">
+        <span
+          class="text-2xl font-bold mb-2 border-b-lime-600 border-b-4 border-opacity-30 pb-8"
+          >Select a size</span
+        >
+        <ul class="flex flex-col w-full gap-6">
+          <li>
+            <input
+              type="radio"
+              id="size-tall"
+              name="size"
+              value="size-tall"
+              class="hidden peer"
+              required
+              [(ngModel)]="selectedSize"
+            />
+            <label
+              for="size-tall"
+              class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
             >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </label>
-        </li>
-        <li>
-          <input
-            type="radio"
-            id="size-grande"
-            name="size"
-            value="size-grande"
-            class="hidden peer"
-            required
-          />
-          <label
-            for="size-grande"
-            class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Grande</div>
-            </div>
-            <svg
-              width="35px"
-              height="35px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              <div class="block">
+                <div class="w-full text-lg font-semibold">Tall</div>
+              </div>
+              <svg
+                width="30px"
+                height="30px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              id="size-grande"
+              name="size"
+              value="size-grande"
+              class="hidden peer"
+              required
+            />
+            <label
+              for="size-grande"
+              class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
             >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </label>
-        </li>
-        <li>
-          <input
-            type="radio"
-            id="size-venti"
-            name="size"
-            value="size-venti"
-            class="hidden peer"
-            required
-          />
-          <label
-            for="size-venti"
-            class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Venti</div>
-            </div>
-            <svg
-              width="40px"
-              height="40px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              <div class="block">
+                <div class="w-full text-lg font-semibold">Grande</div>
+              </div>
+              <svg
+                width="35px"
+                height="35px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              id="size-venti"
+              name="size"
+              value="size-venti"
+              class="hidden peer"
+              required
+            />
+            <label
+              for="size-venti"
+              class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
             >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </label>
-        </li>
-        <li>
-          <input
-            type="radio"
-            id="size-trenta"
-            name="size"
-            value="size-trenta"
-            class="hidden peer"
-            required
-          />
-          <label
-            for="size-trenta"
-            class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
-          >
-            <div class="block">
-              <div class="w-full text-lg font-semibold">Trenta</div>
-            </div>
-            <svg
-              width="45px"
-              height="45px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              <div class="block">
+                <div class="w-full text-lg font-semibold">Venti</div>
+              </div>
+              <svg
+                width="40px"
+                height="40px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              id="size-trenta"
+              name="size"
+              value="size-trenta"
+              class="hidden peer"
+              required
+            />
+            <label
+              for="size-trenta"
+              class="inline-flex items-center justify-between w-full p-5 text-green-900 bg-transparent border border-green-900 rounded-lg cursor-point peer-checked:border-green-600 peer-checked:text-white peer-checked:bg-green-900 hover:text-white hover:bg-green-700"
             >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
-                fill="currentColor"
-              />
-            </svg>
-          </label>
-        </li>
-      </ul>
+              <div class="block">
+                <div class="w-full text-lg font-semibold">Trenta</div>
+              </div>
+              <svg
+                width="45px"
+                height="45px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4.55132 2.68377C4.68743 2.27543 5.06957 2 5.5 2H18.5C18.9304 2 19.3126 2.27543 19.4487 2.68377L20.2208 5H20.5C21.0523 5 21.5 5.44772 21.5 6C21.5 6.55228 21.0523 7 20.5 7H19.5H19.405L17.995 21.0995C17.9439 21.6107 17.5138 22 17 22H7C6.48625 22 6.05608 21.6107 6.00496 21.0995L4.59501 7H4.5H3.5C2.94772 7 2.5 6.55228 2.5 6C2.5 5.44772 2.94772 5 3.5 5H3.77924L4.55132 2.68377ZM6.60499 7L7.90499 20H16.095L17.395 7H6.60499ZM18.1126 5H5.88743L6.22076 4H17.7792L18.1126 5Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      class="md:w-1/2 max-h-screen md:h-auto md:order-2 md:flex md:items-start md:justify-center"
+    >
+      <div class="flex flex-col p-4 sm:p-16 gap-9 w-full">
+        <span
+          class="text-2xl font-bold mb-2 border-b-lime-600 border-b-4 border-opacity-30 pb-8"
+          >What's included</span
+        >
+        <mat-form-field>
+          <mat-label>Select a coffee syrup</mat-label>
+          <mat-select name="coffeeFlavor" [(ngModel)]="selectedCoffeeFlavor">
+            <mat-option
+              name="coffeeFlavor"
+              *ngFor="let flavor of coffeeFlavors"
+              [value]="flavor.value"
+            >
+              {{ flavor.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Select sweetness level</mat-label>
+          <mat-select
+            name="sweetnessLevel"
+            [(ngModel)]="selectedSweetnessLevel"
+          >
+            <mat-option
+              *ngFor="let sweetness of sweetnessLevels"
+              [value]="sweetness.value"
+            >
+              {{ sweetness.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Quantity</mat-label>
+          <input
+            matInput
+            type="number"
+            step="1"
+            name="quantity"
+            [(ngModel)]="selectedQuantity"
+          />
+        </mat-form-field>
+
+        <button
+          type="submit"
+          class="bg-darkgreen text-white bg-green-900 py-3 px-5 font-semibold text-xl rounded-full border-2 hover:border-green-900 hover:bg-transparent hover:text-green-900 transition duration-300"
+        >
+          Add To Order
+        </button>
+        <div *ngIf="successMessage" class="text-green-500 mt-2">
+          {{ successMessage }}
+          <a
+            href="/cart"
+            class="text-white bg-green-900 hover:bg-green-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full px-5 py-4 text-center shadow-sm mt-4"
+          >
+            Visit Cart
+          </a>
+        </div>
+        <div *ngIf="errorMessage" class="text-red-500 mt-2">
+          {{ errorMessage }}
+        </div>
+      </div>
     </div>
   </div>
-  <div
-    class="md:w-1/2 max-h-screen md:h-auto md:order-2 md:flex md:items-start md:justify-center"
-  >
-    <div class="flex flex-col p-4 sm:p-16 gap-9 w-full">
-      <span
-        class="text-2xl font-bold mb-2 border-b-lime-600 border-b-4 border-opacity-30 pb-8"
-        >What's included</span
-      >
-      <mat-form-field>
-        <mat-label>Select a coffee flavor</mat-label>
-        <mat-select>
-          <mat-option
-            *ngFor="let flavor of coffeeFlavors"
-            [value]="flavor.value"
-          >
-            {{ flavor.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Select sweetness level</mat-label>
-        <mat-select>
-          <mat-option
-            *ngFor="let sweetness of sweetnessLevels"
-            [value]="sweetness.value"
-          >
-            {{ sweetness.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="example-full-width">
-        <mat-label>Quantity</mat-label>
-        <input matInput type="number" step="1" />
-      </mat-form-field>
-
-      <button
-        class="bg-darkgreen text-white bg-green-900 py-3 px-5 font-semibold text-xl rounded-full border-2 hover:border-green-900 hover:bg-transparent hover:text-green-900 transition duration-300"
-      >
-        Add To Order
-      </button>
-    </div>
-  </div>
-</div>
+</form>

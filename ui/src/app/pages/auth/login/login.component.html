@@ -5,6 +5,7 @@
     <span class="text-3xl font-bold mb-2">Sign in or create an account</span>
     <div
       class="block w-full sm:w-[30%] p-6 bg-white border border-gray-200 rounded-lg shadow mb-8"
+      *ngIf="!loggedIn"
     >
       <!-- Display success message -->
       <div *ngIf="successMessage" class="text-green-600 font-semibold mb-2">
@@ -49,7 +50,9 @@
           <mat-checkbox class="text-sm">Keep me signed in</mat-checkbox>
         </div>
         <div class="mb-6 text-center">
-          <a href="/forgot-password" class="text-md mb-6">Forgot your password? </a>
+          <a href="/forgot-password" class="text-md mb-6"
+            >Forgot your password?
+          </a>
         </div>
 
         <button
@@ -61,11 +64,17 @@
         </button>
       </form>
     </div>
-    <span class="text-md text-green-600 font-semibold">Join Bucks</span>
+    <span class="text-md text-green-600 font-semibold" *ngIf="!loggedIn"
+      >Join Cafe</span
+    >
     <a
       href="/register"
+      *ngIf="!loggedIn"
       class="text-green-600 bg-transparent hover:bg-green-200 hover:text-green-800 border hover:border-green-800 border-green-600 focus:ring-4 focus:outline-none font-medium rounded-full text-sm px-5 py-2 text-center shadow-sm"
       >Join Now</a
+    >
+    <span class="text-md text-red-600 font-semibold" *ngIf="loggedIn"
+      >You are already logged in</span
     >
   </div>
 </div>
