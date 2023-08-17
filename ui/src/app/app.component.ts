@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-// import { WebsocketService } from './webSocket.service';
-// import { Observable } from 'rxjs';
+import { WebsocketService } from './webSocket.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +9,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Coffee Cafe';
-  // messages: Observable<{ type: string; message: string }[]>;
+  messages: Observable<{ type: string; message: string }[]>;
 
-  // constructor(private websocketService: WebsocketService) {
-  //   this.messages = this.websocketService.getMessages();
-  //   console.log(this.messages);
-  // }
+  constructor(private websocketService: WebsocketService) {
+    this.messages = this.websocketService.getMessages();
+    console.log(this.messages);
+  }
 
-  // sendMessage(message: string): void {
-  //   this.websocketService.sendMessage(message);
-  // }
+  sendMessage(message: string): void {
+    this.websocketService.sendMessage(message);
+  }
 }
